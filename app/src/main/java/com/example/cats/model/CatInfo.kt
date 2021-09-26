@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Cat(
+data class CatInfo(
 
     @Json(name = "id")
     val id: String,
@@ -17,8 +17,5 @@ data class Cat(
 
     @Json(name = "temperament")
     val temperament: String,
-
-    @Json(name = "image")
-    val image: CatImage,
-
 )
+

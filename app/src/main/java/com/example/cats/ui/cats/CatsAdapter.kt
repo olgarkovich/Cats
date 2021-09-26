@@ -9,6 +9,7 @@ import coil.transform.CircleCropTransformation
 import com.example.cats.R
 import com.example.cats.databinding.ItemCatBinding
 import com.example.cats.model.Cat
+import com.example.cats.model.CatImage
 
 class CatsAdapter : RecyclerView.Adapter<CatsAdapter.CatHolder>() {
 
@@ -28,14 +29,14 @@ class CatsAdapter : RecyclerView.Adapter<CatsAdapter.CatHolder>() {
     }
 
     override fun onBindViewHolder(holder: CatHolder, position: Int) {
-        holder.bind(cats[position])
+        holder.bind(cats[position].image)
     }
 
     inner class CatHolder(private val binding: ItemCatBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cat: Cat) {
-            binding.catImage.load(cat.url) {
+        fun bind(catImage: CatImage) {
+            binding.catImage.load(catImage.url) {
                 crossfade(true)
                 placeholder(R.mipmap.ic_launcher)
                 transformations(CircleCropTransformation())
