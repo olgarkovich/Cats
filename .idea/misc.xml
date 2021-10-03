@@ -7,6 +7,8 @@
         <entry key="..\:/labs/Cats/app/src/main/res/layout/fragment_cat_details.xml" value="0.21638330757341576" />
         <entry key="..\:/labs/Cats/app/src/main/res/layout/fragment_cats.xml" value="0.136" />
         <entry key="..\:/labs/Cats/app/src/main/res/layout/item_cat.xml" value="0.13020833333333334" />
+        <entry key="..\:/labs/Cats/app/src/main/res/layout/item_error.xml" value="0.146875" />
+        <entry key="..\:/labs/Cats/app/src/main/res/layout/item_progress.xml" value="0.1259259259259259" />
       </map>
     </option>
   </component>

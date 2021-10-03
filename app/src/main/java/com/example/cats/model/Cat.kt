@@ -22,3 +22,4 @@ data class Cat(
     val image: CatImage,
 
 )
+
