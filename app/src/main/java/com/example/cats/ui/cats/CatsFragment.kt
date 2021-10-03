@@ -14,18 +14,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cats.CatListener
 import com.example.cats.R
 import com.example.cats.databinding.FragmentCatsBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 
-class CatsFragment : Fragment() {
+class CatsFragment : Fragment(), CatListener {
 
     private var _binding: FragmentCatsBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     private val viewModel: CatsViewModel by viewModels()
-    private val adapter = CatsAdapter()
+    private val adapter = CatsAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,12 +57,6 @@ class CatsFragment : Fragment() {
             }
         }
 
-        adapter.listener = {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            val bundle = bundleOf(CAT_ID to it)
-            findNavController().navigate(R.id.action_catsFragment_to_catDetailFragment, bundle)
-        }
-
         adapter.addLoadStateListener { state ->
             binding.catsRecycler.isVisible = state.refresh != LoadState.Loading
             binding.progressBar.isVisible = state.refresh == LoadState.Loading
@@ -83,6 +78,12 @@ class CatsFragment : Fragment() {
 
     private companion object {
         const val CAT_ID = "id"
+    }
+
+    override fun openCat(id: String) {
+        Toast.makeText(requireContext(), id, Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf(CAT_ID to id)
+        findNavController().navigate(R.id.action_catsFragment_to_catDetailFragment, bundle)
     }
 
 }

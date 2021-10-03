@@ -50,9 +50,9 @@ class CatDetailsFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.result.collect {
-                if (it.isNotEmpty()) {
-                    renderData(it[0].catInfo[0])
-                    loadImage(it[0].url)
+                if (it.id != "") {
+//                    renderData(it[0].catInfo[0])
+                    loadImage(it.url)
                 } else {
                     Toast.makeText(requireActivity(), "Loading error", Toast.LENGTH_SHORT).show()
                 }
@@ -60,13 +60,13 @@ class CatDetailsFragment : Fragment() {
         }
     }
 
-    private fun renderData(cat: CatInfo) {
-
-        binding.name.text = cat.name
-        binding.description.text = cat.description
-        binding.temperament.text = cat.temperament
-
-    }
+//    private fun renderData(cat: CatInfo) {
+//
+//        binding.name.text = cat.name
+//        binding.description.text = cat.description
+//        binding.temperament.text = cat.temperament
+//
+//    }
 
     private fun loadImage(url: String) {
         binding.catImage.load(url) {

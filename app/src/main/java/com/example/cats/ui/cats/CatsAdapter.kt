@@ -7,25 +7,28 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.cats.CatListener
 import com.example.cats.R
 import com.example.cats.databinding.ItemCatBinding
 import com.example.cats.model.CatImage
 
-class CatsAdapter : PagingDataAdapter<CatImage, CatsAdapter.CatHolder>(DiffUtilCallBack()) {
-
-    var listener: ((String) -> Unit)? = null
+class CatsAdapter(private val listener: CatListener) :
+    PagingDataAdapter<CatImage, CatsAdapter.CatHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCatBinding.inflate(layoutInflater, parent, false)
-        return CatHolder(binding)
+        return CatHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: CatHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class CatHolder(private val binding: ItemCatBinding) :
+    inner class CatHolder(
+        private val binding: ItemCatBinding,
+        private val listener: CatListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(catImage: CatImage?) {
@@ -33,17 +36,21 @@ class CatsAdapter : PagingDataAdapter<CatImage, CatsAdapter.CatHolder>(DiffUtilC
                 crossfade(true)
                 placeholder(R.mipmap.ic_launcher)
                 transformations(CircleCropTransformation())
+
+                initButton(catImage?.id)
             }
         }
 
-//        init {
-//            binding.catImage.setOnClickListener {
-//                listener?.invoke(cats[adapterPosition].id)
-//            }
-//        }
+        private fun initButton(id: String?) {
+            binding.catImage.setOnClickListener {
+                if (id != null) {
+                    listener.openCat(id)
+                }
+            }
+        }
     }
 
-    class DiffUtilCallBack: DiffUtil.ItemCallback<CatImage>() {
+    class DiffUtilCallBack : DiffUtil.ItemCallback<CatImage>() {
         override fun areItemsTheSame(oldItem: CatImage, newItem: CatImage): Boolean {
             return oldItem.id == newItem.id
         }
