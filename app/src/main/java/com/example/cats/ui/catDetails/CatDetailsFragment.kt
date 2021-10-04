@@ -13,18 +13,20 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.cats.R
 import com.example.cats.databinding.FragmentCatDetailsBinding
-import com.example.cats.model.CatInfo
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 
 class CatDetailsFragment : Fragment() {
 
     private var _binding: FragmentCatDetailsBinding? = null
     private val binding get() = requireNotNull(_binding)
 
+
     private val viewModel: CatDetailViewModel by viewModels()
 
     private var currentId = ""
+    private var currentUrl = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,22 +53,18 @@ class CatDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.result.collect {
                 if (it.id != "") {
-//                    renderData(it[0].catInfo[0])
-                    loadImage(it.url)
+                    currentUrl = it.url
+                    loadImage(currentUrl)
                 } else {
                     Toast.makeText(requireActivity(), "Loading error", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-    }
 
-//    private fun renderData(cat: CatInfo) {
-//
-//        binding.name.text = cat.name
-//        binding.description.text = cat.description
-//        binding.temperament.text = cat.temperament
-//
-//    }
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 
     private fun loadImage(url: String) {
         binding.catImage.load(url) {
@@ -85,3 +83,4 @@ class CatDetailsFragment : Fragment() {
         const val CAT_ID = "id"
     }
 }
+

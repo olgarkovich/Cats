@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cats.databinding.ItemErrorBinding
 import com.example.cats.databinding.ItemProgressBinding
 
-class LoaderStateAdapter() : LoadStateAdapter<LoaderStateAdapter.ItemViewHolder>() {
+class LoaderStateAdapter : LoadStateAdapter<LoaderStateAdapter.ItemViewHolder>() {
 
     override fun getStateViewType(loadState: LoadState) = when (loadState) {
         LoadState.Loading -> PROGRESS

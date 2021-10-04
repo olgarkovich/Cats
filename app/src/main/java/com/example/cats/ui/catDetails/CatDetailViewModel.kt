@@ -2,7 +2,6 @@ package com.example.cats.ui.catDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cats.model.CatDetails
 import com.example.cats.model.CatImage
 import com.example.cats.network.NetworkModule
 import kotlinx.coroutines.Dispatchers
