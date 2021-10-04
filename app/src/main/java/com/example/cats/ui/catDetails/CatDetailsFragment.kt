@@ -52,7 +52,7 @@ class CatDetailsFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.result.collect {
-                if (it.id != "") {
+                if (it.id.isNotBlank()) {
                     currentUrl = it.url
                     loadImage(currentUrl)
                 } else {
