@@ -15,6 +15,7 @@ import com.example.cats.R
 import com.example.cats.databinding.FragmentCatDetailsBinding
 import kotlinx.coroutines.flow.collect
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 
 class CatDetailsFragment : Fragment() {
@@ -63,6 +64,14 @@ class CatDetailsFragment : Fragment() {
 
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.saveButton.setOnClickListener {
+            Snackbar.make(
+                binding.root,
+                "There are a lot of cats^_^, but not a lot of time((",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 
