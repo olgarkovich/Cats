@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -28,6 +29,9 @@ class CatDetailsFragment : Fragment() {
 
     private var currentId = ""
     private var currentUrl = ""
+
+    private var job = Job()
+    private var scopeForSaving = CoroutineScope(job + Dispatchers.Main)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -72,6 +76,15 @@ class CatDetailsFragment : Fragment() {
                 "There are a lot of cats^_^, but not a lot of time((",
                 Snackbar.LENGTH_LONG
             ).show()
+
+            scopeForSaving.launch { saveToStorage() }
+
+        }
+    }
+
+    private suspend fun saveToStorage(){
+        withContext(Dispatchers.IO){
+            saveImage(requireContext(), binding.catImage.drawable.toBitmap())
         }
     }
 
@@ -79,13 +92,14 @@ class CatDetailsFragment : Fragment() {
         binding.catImage.load(url) {
             crossfade(true)
             placeholder(R.mipmap.ic_launcher)
-            transformations(CircleCropTransformation())
+            allowHardware(false)
         }
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+        scopeForSaving.cancel()
     }
 
     private companion object {
